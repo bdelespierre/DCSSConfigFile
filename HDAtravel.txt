@@ -144,19 +144,12 @@ autoinscribe += staff of energy:@w1
 :     elseif you_want_chunks and (not (you_are_zin or need_to_recover or on_chunks() or on_corpses() or already_checked)) then
 :       crawl.mpr("<yellow>You may need something to eat soon, looking for food.</yellow>")
 :       find_corpses()
-:     elseif you_are_starving_or_near() and (number_of_chunks == 0) and (not (on_chunks() or on_corpses())) then
-:       local have_bread = is_in_inventory("bread ration")
-:       local have_meat = is_in_inventory("meat ration")
-:       if have_bread or have_meat then
-:         local result = crawl.yesnoquit("<cyan>Eat a ration?</cyan>", true, 'e')
-:         if result == 1 and have_bread then
-:           sendkeys('e1')
-:         elseif result == 1 then
-:           sendkeys('e2')
-:         elseif result == 0 then
-:           autoexplore()
-:         end
-:         if not (is_in_inventory("bread ration") or is_in_inventory("meat ration")) then
+:     elseif you_are_starving_or_near() and (number_of_chunks() == 0) and (not (on_chunks() or on_corpses())) then
+:       local have_ration = is_in_inventory("ration")
+:       if have_ration then
+:         crawl.mpr("<cyan>Autoeating ration.</cyan>")
+:         sendkeys('ec')
+:         if not (is_in_inventory("ration")) then
 :           crawl.mpr("<lightred>That was your last ration! You should go get more.</lightred>")
 :         end
 :       else
@@ -204,7 +197,7 @@ autoinscribe += staff of energy:@w1
     local you_are_mummy = string.find(you.race(), "Mummy")
     local you_are_deep_dwarf = string.find(you.race(), "Deep Dwarf")
     return (mp < (max_mp*0.50) or ((max_mp-mp) > 20)
-						or ((hp < (max_hp*0.80)) or ((max_hp-hp) > 30) 
+						or ((hp < (max_hp*0.80)) or ((max_hp-hp) > 30)
 								and not you_are_deep_dwarf)
             or you.slowed()
             or you.poisoned()
@@ -283,7 +276,7 @@ autoinscribe += staff of energy:@w1
   function can_not_bottle()
     return string.find(crawl.messages(10), escape("There isn't anything to bottle here"))
   end
-  
+
   function recently_mass_animated()
     return string.find(crawl.messages(10), escape("Autocasting Mass Animate Remains"))
   end
@@ -346,7 +339,7 @@ autoinscribe += staff of energy:@w1
     end
     return false
   end
-	
+
   function weapon_in_inventory()
     for it in inventory() do
       if string.find(it.class(true), "weapon") then
@@ -378,11 +371,11 @@ autoinscribe += staff of energy:@w1
   end
 
   function you_worship_sacrifice_god()
-    return string.find(you.god(), "Trog") 
+    return string.find(you.god(), "Trog")
 		    --or string.find(you.god(), "Oka")
-        --or string.find(you.god(), "Makhleb")  
+        --or string.find(you.god(), "Makhleb")
 				or string.find(you.god(), "Beogh")
-        or string.find(you.god(), "Lugonu") 
+        or string.find(you.god(), "Lugonu")
 				--or string.find(you.god(), "Nemelex")
   end
 
