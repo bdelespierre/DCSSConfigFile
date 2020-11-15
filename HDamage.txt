@@ -2,15 +2,17 @@
 
 # To use this you must add have a call to AnnounceDamage() in the ready() function like below:
 # This is important if you override this ready() function
-<
-  function ready()
-    AnnounceDamage()
-  end
->
+#
+# <
+#   function ready()
+#     AnnounceDamage()
+#   end
+# >
 
 ###############
 # Damage Calc #
 ###############
+
 <
   local previous_hp = 0
   local previous_mp = 0
